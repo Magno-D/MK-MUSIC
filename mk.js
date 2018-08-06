@@ -308,7 +308,6 @@ if (message.content === prefix +'help') {
 
 "1vol [percentage]": sets the volume of the music to given percentage
 
-#Misc "!help or !commands": displays avialable bot commands
 ● ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ ● 
 `)
 .setColor('RANDOM')
