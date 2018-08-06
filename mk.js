@@ -13,9 +13,6 @@ const youtube = new YouTube(ytApiKey);
 const bot = new Discord.Client({
 	disableEveryone: true
 });
-
-let commandsList = fs.readFileSync('commands.md', 'utf8');
-
 /* MUSIC VARIABLES */
 let queue = []; // Songs queue
 let songsQueue = []; // Song names stored for queue command
@@ -102,7 +99,7 @@ bot.on("message", async message => {
 					message.reply(`now playing **${songsQueue[0]}**`);
 				}
 			} else if (args.length == 0 && queue.length == 0) {
-				message.reply("queue is empty now, type !play [song name] or !yt [song name] to play/search new songs!");
+				message.reply("queue is empty now, type play [song name] or yt [song name] to play/search new songs!");
 			} else if (queue.length > 0 || isPlaying) {
 				getID(args).then(id => {
 					if (id) {
@@ -157,7 +154,7 @@ bot.on("message", async message => {
 
 		case "queue":
 			if (queue.length === 0) { // if there are no songs in the queue, send message that queue is empty
-				message.reply("queue is empty, type !play or !yt to play/search new songs!");
+				message.reply("queue is empty, type play or yt to play/search new songs!");
 			} else if (args.length > 0 && args[0] == 'remove') { // if arguments are provided and first one is remove
 				if (args.length == 2 && args[1] <= queue.length) { // check if there are no more than 2 arguments and that second one is in range of songs number in queue
 					// then remove selected song from the queue
@@ -170,17 +167,17 @@ bot.on("message", async message => {
 			} else if (args.length > 0 && args[0] == 'clear') { // same as remove, only clears queue if clear is first argument
 				if (args.length == 1) {
 					// reseting queue and songsQueue, but leaving current song
-					message.reply("all upcoming songs have been removed from the queue. type !play or !yt to play/search new songs!");
+					message.reply("all upcoming songs have been removed from the queue. type play or yt to play/search new songs!");
 					queue.splice(1);
 					songsQueue.splice(1);
 				} else {
-					message.reply("you need to type !queue clear without following arguments.");
+					message.reply("you need to type queue clear without following arguments.");
 				}
 			} else if (args.length > 0 && args[0] == 'shuffle') {
 				let tempA = [songsQueue[0]];
 				let tempB = songsQueue.slice(1);
 				songsQueue = tempA.concat(shuffle(tempB));
-				message.channel.send("Queue has been shuffled. Type !queue to see the new queue!");
+				message.channel.send("Queue has been shuffled. Type queue to see the new queue!");
 			} else { // if there are songs in the queue and queue commands is without arguments display current queue
 				let format = "```"
 				for (const songName in songsQueue) {
@@ -215,7 +212,7 @@ bot.on("message", async message => {
 
 		case "yt":
 			if (args.length == 0) {
-				message.reply("you need to enter search term (!yt [search term]).");
+				message.reply("you need to enter search term (yt [search term]).");
 			} else {
 				message.channel.send("```Searching youtube...```");
 				getYouTubeResultsId(args, 5).then(ytResults => {
@@ -229,7 +226,7 @@ bot.on("message", async message => {
 						.addField("4:", "```" + ytResults[3] + "```")
 						.addField("5:", "```" + ytResults[4] + "```")
 						.addBlankField()
-						.setFooter("Send !add [result number] to queue the song.");
+						.setFooter("Send add [result number] to queue the song.");
 					message.channel.send(ytEmbed);
 					youtubeSearched = true;
 				}).catch(err => console.log(err));
@@ -254,7 +251,7 @@ bot.on("message", async message => {
 					youtubeSearched = false;
 				}
 			} else {
-				message.reply("you need to use !yt [search term] command first to add song from the list to the queue.");
+				message.reply("you need to use 1yt [search term] command first to add song from the list to the queue.");
 			}
 			break;
 
@@ -272,14 +269,52 @@ bot.on("message", async message => {
 			}
 			break;
 
-		case "help":
-			message.channel.send("```cs\n" + commandsList + "\n```");
-			break;
-
 
 	}
 });
+bot.on("ready", function() {
+	console.log("ready");
+	
+	bot.user.setStatus("Online");
+	bot.user.setGame("To Get Help | 1help");
+});
+client.on('message', message => {
+if (message.content === prefix +'help') {
+	 message.channel.send('**[تم ارسال في الخاص** :mailbox_with_mail:**|Check Your DM]**');
+         let embed = new Discord.RichEmbed()
+.setThumbnail(message.author.avatarURL)
+	.setDescription (`
+#User "1userinfo [username or blank]": displays info for the selected user or for message sender if arguments are not provided
 
+#Music "1play [song name or blank]": plays a song or if arguments are not provided plays the first song in the queue
+
+"1skip": skips the current song
+
+"1queue": displays current queue
+
+"1queue remove [song number]": removes chosen song from the queue
+
+"1queue clear": removes all songs from the queue
+
+"1queue shuffle": shuffles the current queue
+
+"1repeat": plays current song again
+
+"1stop": stops playing music and deletes all songs in the queue
+
+"1yt [search term]": searches the YouTube and returns first 5 results
+
+"1add [search result number]": adds a song from YouTube search to the queue
+
+"1vol [percentage]": sets the volume of the music to given percentage
+
+#Misc "!help or !commands": displays avialable bot commands
+● ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ ● 
+`)
+.setColor('RANDOM')
+  message.author.sendEmbed(embed);
+    }
+});
 /*--------------------------------*/
 /* MUSIC CONTROL FUNCTIONS START */
 /*------------------------------*/
