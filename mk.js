@@ -278,7 +278,7 @@ bot.on("ready", function() {
 	bot.user.setStatus("Online");
 	bot.user.setGame("To Get Help | 1help");
 });
-client.on('message', message => {
+bot.on('message', message => {
 if (message.content === prefix +'help') {
 	 message.channel.send('**[تم ارسال في الخاص** :mailbox_with_mail:**|Check Your DM]**');
          let embed = new Discord.RichEmbed()
