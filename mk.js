@@ -426,15 +426,15 @@ bot.on('message', message => {
       if (!developers.includes(message.author.id)) return;
       
   if (message.content.startsWith(adminprefix + 'ply')) {
-    client.user.setGame(argresult);
+    bot.user.setGame(argresult);
       message.channel.send(`**✅   ${argresult}**`)
   } else 
   if (message.content.startsWith(adminprefix + 'setname')) {
-  client.user.setUsername(argresult).then
+  bot.user.setUsername(argresult).then
       message.channel.send(`Changing The Name To ..**${argresult}** `)
 } else
 if (message.content.startsWith(adminprefix + 'setavatar')) {
-  client.user.setAvatar(argresult);
+  bot.user.setAvatar(argresult);
     message.channel.send(`Changing The Avatar To :**${argresult}** `);
 }
 });
