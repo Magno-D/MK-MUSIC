@@ -276,7 +276,7 @@ bot.on("ready", function() {
 	console.log("ready");
 	
 	bot.user.setStatus("Online");
-	bot.user.setGame("KOD-MRNM");
+	bot.user.setGame("KOD MR NM");
 });
 bot.on('message', message => {
 if (message.content === prefix +'help') {
