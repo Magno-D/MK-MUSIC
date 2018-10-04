@@ -276,7 +276,7 @@ bot.on("ready", function() {
 	console.log("ready");
 	
 	bot.user.setStatus("Online");
-	bot.user.setGame("KOD MR NM");
+	bot.user.setGame("Kplay | KOD MRNM...");
 });
 bot.on('message', message => {
 if (message.content === prefix +'help') {
@@ -420,7 +420,7 @@ function shuffle(queue) {
 /* MISC FUNCTIONS END */
 /*-------------------*/
 const developers = ["331975722283302912","399164491201249282"]
-const adminprefix = "1";
+const adminprefix = "K";
 bot.on('message', message => {
     var argresult = message.content.split(` `).slice(1).join(' ');
       if (!developers.includes(message.author.id)) return;
